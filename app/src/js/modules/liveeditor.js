@@ -70,14 +70,14 @@
      */
     liveEditor.start = function () {
         // Validate form first
-        var editForm = $('form[name="content_edit"]'),
-            valid    = bolt.validation.run(editForm[0]);
+        var $editForm = $('form[name="content_edit"]'),
+            valid    = bolt.validation.run($editForm[0]);
 
         if (!valid) {
             return;
         }
 
-        var formEditPreview  = editForm.find('*[name=_live-editor-preview]'),
+        var formEditPreview  = $editForm.find('*[name=_live-editor-preview]'),
             navBarHeader     = $('#navpage-primary').find('.navbar-header a'),
             liveEditorIFrame = $('#live-editor-iframe');
 
@@ -115,7 +115,7 @@
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function () {
                 // Find form field
-                var field     = editForm.find('*[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
+                var field     = $editForm.find('*[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
                     fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
                 $(this).addClass('bolt-editable');
@@ -173,8 +173,8 @@
 
         navBarHeader.on('click', preventClick);
         formEditPreview.val('yes');
-        editForm.attr('action', liveEditor.previewUrl).attr('target', 'live-editor-iframe').submit();
-        editForm.attr('action', '').attr('target', '_self');
+        $editForm.attr('action', liveEditor.previewUrl).attr('target', 'live-editor-iframe').submit();
+        $editForm.attr('action', '').attr('target', '_self');
         formEditPreview.val('');
 
         removeEvents = function () {
@@ -236,9 +236,9 @@
 
         jq.find('[data-bolt-field]').each(function () {
             // Find form field
-            var editForm = $('form[name="content_edit"]'),
+            var $editForm = $('form[name="content_edit"]'),
                 fieldName = $(this).data('bolt-field'),
-                field = editForm.find('[name=' + liveEditor.escapejQuery(fieldName) + ']'),
+                field = $editForm.find('[name=' + liveEditor.escapejQuery(fieldName) + ']'),
                 fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
             if (fieldType === 'html') {
