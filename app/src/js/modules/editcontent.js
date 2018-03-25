@@ -153,10 +153,10 @@
      * @memberof Bolt.editcontent
      */
     function initValidation() {
-        var editForm = $('form[name="content_edit"]');
+        var $editForm = $('form[name="content_edit"]');
 
         // Set handler to validate form submit.
-        editForm
+        $editForm
             .attr('novalidate', 'novalidate')
             .on('submit', function (event) {
                 var valid = bolt.validation.run(this);
@@ -171,7 +171,7 @@
         );
 
         // Basic custom validation handler.
-        editForm.on('boltvalidate', function () {
+        $editForm.on('boltvalidate', function () {
             var valid = bolt.validation.run(this);
 
             $(this).data('valid', valid);
@@ -215,11 +215,11 @@
      * @memberof Bolt.editcontent
      */
     function initPreview() {
-        var editForm = $('form[name="content_edit"]');
+        var $editForm = $('form[name="content_edit"]');
 
         // Enable the preview buttons, as they are useless without JavaScript
-        editForm.find('#sidebar_preview').attr('disabled', false);
-        editForm.find('#content_edit_preview').attr('disabled', false);
+        $editForm.find('#sidebar_preview').attr('disabled', false);
+        $editForm.find('#content_edit_preview').attr('disabled', false);
 
         $('#sidebar_preview').bind('click', function () {
             $('#content_edit_preview').trigger('click');
@@ -230,8 +230,8 @@
             var newAction = $(e.target).data('url');
 
             e.preventDefault();
-            editForm.attr('action', newAction).attr('target', '_blank').submit();
-            editForm.attr('action', '').attr('target', '_self');
+            $editForm.attr('action', newAction).attr('target', '_blank').submit();
+            $editForm.attr('action', '').attr('target', '_self');
         });
     }
 
@@ -266,12 +266,12 @@
                 function (confirmed) {
                     $('.alert').alert(); // Dismiss alert messages
                     if (confirmed === true) {
-                        var editForm = $('form[name="content_edit"]');
+                        var $editForm = $('form[name="content_edit"]');
 
                         // We don't care about changes, the delete is confirmed.
                         window.onbeforeunload = null;
 
-                        bolt.actions.submit(editForm, button);
+                        bolt.actions.submit($editForm, button);
                     }
                 }
             );
@@ -341,12 +341,12 @@
         $('#content_edit_save').bind('click', function (e) {
             e.preventDefault();
 
-            var editForm = $('form[name="content_edit"]');
+            var $editForm = $('form[name="content_edit"]');
 
             // Trigger form validation
-            editForm.trigger('boltvalidate');
+            $editForm.trigger('boltvalidate');
             // Check validation
-            if (!editForm.data('valid')) {
+            if (!$editForm.data('valid')) {
                 return false;
             }
 
@@ -368,7 +368,7 @@
                 }
 
                 // New record. Do a regular post, and expect to be redirected back to this page.
-                bolt.actions.submit(editForm, this);
+                bolt.actions.submit($editForm, this);
             } else {
                 watchChanges();
 
@@ -378,7 +378,7 @@
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 var button = $(e.target);
-                var postData = editForm.serialize()
+                var postData = $editForm.serialize()
                     + '&' + encodeURI(button.attr('name'))
                     + '=' + encodeURI(button.attr('value'))
                 ;
@@ -424,7 +424,7 @@
                                     // so we're catching arrays and ignoring
                                     // them, someone else can fix this!
                                 } else {
-                                    var field = $(editForm.name).find('[name=' + index + ']');
+                                    var field = $($editForm.name).find('[name=' + index + ']');
 
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
